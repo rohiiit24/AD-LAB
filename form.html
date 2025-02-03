@@ -1,0 +1,204 @@
+<!--create a web page for user registration form using html and css and validate the details using javascript
+form contains name (3 name)textbox, gender()radio botton, mailid, interest (checkbox), qualification drop down select, 
+image, text area for comment, sumit reset, cancel, button.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #180d0d;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .registration-form {
+            background: #aaa8b5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .registration-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 98%;
+            padding: 10px;
+            border: 1px solid hsl(0, 81%, 13%);
+            border-radius: 4px;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        .form-group .checkbox-group, .form-group .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .form-group .checkbox-group label, .form-group .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button-group button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button-group .submit-btn {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .button-group .reset-btn {
+            background-color: #ffc107;
+            color: #fff;
+        }
+        .button-group .cancel-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .submit-counter {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="registration-form">
+    <h1>User Registration form</h1>
+    <form id="registrationForm">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="middleName">Middle Name</label>
+            <input type="text" id="middleName" name="middleName">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="radio-group">
+                <label><input type="radio" name="gender" value="male" required> Male</label>
+                <label><input type="radio" name="gender" value="female"> Female</label>
+                <label><input type="radio" name="gender" value="other"> Other</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label>Interests</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+                <label><input type="checkbox" name="interests" value="music"> Music</label>
+                <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+                <label><input type="checkbox" name="interests" value="travel"> Travel</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="qualification">Qualification</label>
+            <select id="qualification" name="qualification" required>
+                <option value="">Select</option>
+                <option value="highschool">High School</option>
+                <option value="bachelors">Bachelors</option>
+                <option value="masters">Masters</option>
+                <option value="phd">PhD</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="comments">Comments</label>
+            <textarea id="comments" name="comments" rows="4" placeholder="Enter your comments here..."></textarea>
+        </div>
+        <div class="button-group">
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="reset" class="reset-btn">Reset</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='index.html';">Cancel</button>
+        </div>
+    </form>
+    <div class="submit-counter" id="submitCounter">Submit button clicked 0 times</div>
+</div>
+
+<script>
+    const form = document.getElementById('registrationForm');
+    const submitCounter = document.getElementById('submitCounter');
+    let clickCount = 0;
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        const email = document.getElementById('email');
+        const qualification = document.getElementById('qualification');
+
+        let isValid = true;
+
+        if (firstName.value.trim().length < 2) {
+            alert('First name must be at least 2 characters long.');
+            isValid = false;
+        }
+
+        if (lastName.value.trim().length < 2) {
+            alert('Last name must be at least 2 characters long.');
+            isValid = false;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email.value.trim())) {
+            alert('Please enter a valid email address.');
+            isValid = false;
+        }
+
+        if (!qualification.value) {
+            alert('Please select a qualification.');
+            isValid = false;
+        }
+
+        if (isValid) {
+            clickCount++;
+            submitCounter.textContent = `Submit button clicked ${clickCount} times`;
+            alert('Registration successful!');
+            form.reset();
+        }
+    });
+</script>
+
+</body>
+</html>
